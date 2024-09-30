@@ -95,7 +95,7 @@
         }
 
         header h2 {
-            font-size: 2rem;
+            font-size: 3rem;
             color: #007bff;
         }
 
@@ -192,7 +192,7 @@
             <h3>Admin Panel</h3>
         </div>
         <ul class="list-unstyled components">
-            <li><a href="Admin_Dashboard.php">Home</a></li>
+            <li><a href="Admin_Dashboard.php">Homes</a></li>
             <li><a href="viewcustomer.php">View customer details</a></li>
             <li><a href="manageproduct.php">Manage products</a></li>
             <li><a href="vieworder.php">View order details</a></li>
