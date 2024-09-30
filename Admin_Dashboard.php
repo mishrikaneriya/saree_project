@@ -213,7 +213,7 @@
                 <div class="card-detail"><a href="#">View Details</a></div>
             </div>
             <div class="card green">
-                <div class="card-title">0 Customers</div>
+                <div class="card-title">4 Customers</div>
                 <div class="card-detail"><a href="#">View Details</a></div>
             </div>
 
