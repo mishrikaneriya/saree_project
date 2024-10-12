@@ -1,48 +1,44 @@
 <?php
-include 'config/config.php';
+session_start();
+include("config.php"); // Make sure this path is correct
+
+$c = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die(mysqli_connect_error());
 
 if (isset($_POST['btnlogin'])) {
-    // Admin login
-    if ($_POST['txtemail'] == "admin123@gmail.com" && $_POST['txtpass'] == "admin123") {
-        $_SESSION['user_role'] = 'admin'; // Set user role
-        echo "<script>alert('Login successfully.')</script>";
-        echo "<script>location.replace('Homepage.php')</script>";
-    } else {
-        // Customer login
-        $email = $_POST['txtemail'];
-        $password = $_POST['txtpass'];
+    $email = $_POST['txtemail'];
+    $password = $_POST['txtpass'];
 
-        // Use prepared statements to prevent SQL injection
-        $stmt = $conn->prepare("SELECT user_id, user_pass FROM tbl_login WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->store_result();
+    // Use prepared statements to prevent SQL injection
+    $stmt = $c->prepare("SELECT user_id, password, role FROM tbl_user WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-        if ($stmt->num_rows > 0) {
-            $stmt->bind_result($userId, $hashedPassword);
-            $stmt->fetch();
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        // Verify the password
+        if (password_verify($password, $user['password'])) {
+            // Set session variables
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['role'] = $user['role'];
 
-            // Verify the password
-            if (password_verify($password, $hashedPassword)) {
-                // Set session variables
-                $_SESSION['user_id'] = $userId; // Set user ID in session
-                $_SESSION['user_email'] = $email; // Store email in session
-
-                echo "<script>alert('Login successfully.')</script>";
-                echo "<script>location.replace('Homepage.php')</script>";
+            if ($user['role'] == 'admin') {
+                header("Location: admin_dashboard.php");
             } else {
-                echo "<script>alert('Invalid details.')</script>";
-                echo "<script>location.replace('login.php')</script>";
+                header("Location: user_dashboard.php");
             }
+            exit();
         } else {
-            echo "<script>alert('Invalid details.')</script>";
-            echo "<script>location.replace('login.php')</script>";
+            echo "<script>alert('Invalid password.')</script>";
         }
-
-        $stmt->close();
+    } else {
+        echo "<script>alert('No user found with this email.')</script>";
     }
 }
 ?>
+
+<!-- Your HTML form remains the same -->
+
 
 <html>
     <head>

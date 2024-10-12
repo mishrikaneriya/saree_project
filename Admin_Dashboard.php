@@ -1,5 +1,12 @@
 \<!DOCTYPE html>
-<?php include 'header.php'; ?>
+<?php include 'header.php';
+session_start();
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit();
+}
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
