@@ -1,36 +1,49 @@
 <?php
-
 include 'config/config.php';
 
-
 if (isset($_POST['btnlogin'])) {
-
-    // admin login
+    // Admin login
     if ($_POST['txtemail'] == "admin123@gmail.com" && $_POST['txtpass'] == "admin123") {
+        $_SESSION['user_role'] = 'admin'; // Set user role
         echo "<script>alert('Login successfully.')</script>";
         echo "<script>location.replace('Homepage.php')</script>";
     } else {
-        // customer login
+        // Customer login
         $email = $_POST['txtemail'];
         $password = $_POST['txtpass'];
 
-        // Query the database to find the user
-        $stmt = $conn->prepare("SELECT * FROM tbl_login WHERE email = ? AND user_pass = ?");
-        $stmt->bind_param("ss", $email, $password);
+        // Use prepared statements to prevent SQL injection
+        $stmt = $conn->prepare("SELECT user_id, user_pass FROM tbl_login WHERE email = ?");
+        $stmt->bind_param("s", $email);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt->store_result();
 
-        // Check if user exists
-        if ($result->num_rows > 0) {
-            echo "<script>alert('Login successfully.')</script>";
-            echo "<script>location.replace('Homepage.php')</script>";
+        if ($stmt->num_rows > 0) {
+            $stmt->bind_result($userId, $hashedPassword);
+            $stmt->fetch();
+
+            // Verify the password
+            if (password_verify($password, $hashedPassword)) {
+                // Set session variables
+                $_SESSION['user_id'] = $userId; // Set user ID in session
+                $_SESSION['user_email'] = $email; // Store email in session
+
+                echo "<script>alert('Login successfully.')</script>";
+                echo "<script>location.replace('Homepage.php')</script>";
+            } else {
+                echo "<script>alert('Invalid details.')</script>";
+                echo "<script>location.replace('login.php')</script>";
+            }
         } else {
             echo "<script>alert('Invalid details.')</script>";
             echo "<script>location.replace('login.php')</script>";
         }
+
+        $stmt->close();
     }
 }
 ?>
+
 <html>
     <head>
         <script language="javascript" type="text/javascript">

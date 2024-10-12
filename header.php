@@ -72,10 +72,10 @@ $username = $_SESSION['username']; // Assuming you store the username in the ses
             <a href="viewcustomer.php">Customers</a>
         </div>
         <div class="navbar-right">
-            <span>Welcome, <?php echo htmlspecialchars($username); ?></span>
-            <a href="profile.php">Profile</a>
-            <a href="logout.php">Logout</a>
-        </div>
+    <img src="<?php echo htmlspecialchars($profileImage); ?>" alt="Profile Image" width="30" height="30" style="border-radius: 50%;">
+    <a href="profile.php">Profile</a>
+    <a href="logout.php">Logout</a>
+</div>
     </div>
 </body>
 </html>
