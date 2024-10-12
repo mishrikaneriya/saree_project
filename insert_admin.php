@@ -5,7 +5,7 @@ include("config.php");
 $c = getDbConnection();
 
 // Admin user details
-$email = 'admin123@gmail.com';
+$email = 'bhargav@gmail.com';
 $password = 'admin123'; // Change this to a secure password
 
 // Hash the password
