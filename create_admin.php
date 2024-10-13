@@ -1,7 +1,7 @@
 <?php
 require 'config.php'; // Make sure to include your database config file
 
-$username = 'admin';
+$username = 'admin@gmail.com';
 $password = password_hash('admin123', PASSWORD_DEFAULT); // Change 'admin123' to your desired password
 
 $sql = "INSERT INTO admin_users (username, password) VALUES (?, ?)";

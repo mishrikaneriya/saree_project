@@ -1,28 +1,29 @@
 <?php
 session_start();
+require 'config.php'; // Ensure this file includes the database connection
 
-// Check if the user is logged in, otherwise redirect to login page
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header("location: login.php");
-    exit;
+// Check if user is logged in
+if (!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']) {
+    header("Location: login.php"); // Redirect to login if not logged in
+    exit();
 }
 
-// Assuming you have the user's username stored in the session
-$username = $_SESSION['username'];
+// Access the user's email from the session
+$user_email = $_SESSION['user_email'];
 
-require 'config.php';
-
-// Fetch user data from the database
-$stmt = $conn->prepare("SELECT * FROM tbl_user WHERE username = ?");
-$stmt->bind_param("s", $username);
+// Example query to fetch user data or perform other actions
+$stmt = $con->prepare("SELECT * FROM tbl_user WHERE email = ?");
+$stmt->bind_param("s", $user_email);
 $stmt->execute();
 $result = $stmt->get_result();
 
+// Check if the user exists
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
+    // You can now access user data, e.g., $user['username']
 } else {
+    // Handle case where user does not exist
     echo "User not found.";
-    exit;
 }
 ?>
 
@@ -35,18 +36,10 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="dashboard-container">
-        <h2>Welcome, <?php echo htmlspecialchars($user['full_name']); ?>!</h2>
-        <p>Email: <?php echo htmlspecialchars($user['email']); ?></p>
-        <p>Username: <?php echo htmlspecialchars($user['username']); ?></p>
-        
-        <!-- Navigation Links -->
-        <div class="dashboard-links">
-            <a href="profile.php">View Profile</a>
-            <a href="changepassword.php">Change Password</a>
-            <a href="vieworder.php">View Orders</a>
-            <a href="logout.php">Logout</a>
-        </div>
+    <div class="container">
+        <h2>Welcome to your Dashboard</h2>
+        <p>Email: <?php echo htmlspecialchars($user_email); ?></p>
+        <!-- Add more user-related content here -->
     </div>
 </body>
 </html>

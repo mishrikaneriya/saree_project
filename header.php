@@ -1,20 +1,3 @@
-<?php
-// Start the session if not already started
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-// // Check if the user is logged in
-// if (!isset($_SESSION['user_id'])) {
-//     // Redirect to login page if not logged in
-//     header("Location: login.php");
-//     exit();
-// }
-
-// Fetch user details from the session or database
-$username = $_SESSION['username']; // Assuming you store the username in the session
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,29 +6,44 @@ $username = $_SESSION['username']; // Assuming you store the username in the ses
     <title>Dashboard</title>
     <style>
         /* Basic styling for the navbar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f0f2f5;
+        }
+
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #f8f9fa;
+            background-color: #343a40; /* Match sidebar color */
             padding: 10px 20px;
             border-bottom: 1px solid #ddd;
-            font-family: Arial, sans-serif;
+            color: #fff; /* Text color for navbar */
         }
+
         .navbar-left a, .navbar-right a {
             text-decoration: none;
             margin: 0 10px;
-            color: #333;
+            color: #fff; /* Change link color */
             font-weight: bold;
             transition: color 0.3s ease;
         }
+
         .navbar-left a:hover, .navbar-right a:hover {
             color: #007bff;
         }
-        .navbar-right span {
+
+        .navbar-right img {
+            border-radius: 50%;
             margin-right: 10px;
-            font-weight: bold;
         }
+
         /* Responsive design for mobile view */
         @media (max-width: 768px) {
             .navbar {
@@ -72,10 +70,10 @@ $username = $_SESSION['username']; // Assuming you store the username in the ses
             <a href="viewcustomer.php">Customers</a>
         </div>
         <div class="navbar-right">
-    <img src="<?php echo htmlspecialchars($profileImage); ?>" alt="Profile Image" width="30" height="30" style="border-radius: 50%;">
-    <a href="profile.php">Profile</a>
-    <a href="logout.php">Logout</a>
-</div>
+            <img src="<?php echo htmlspecialchars($profileImage); ?>" alt="Profile Image" width="30" height="30">
+            <a href="profile.php">Profile</a>
+            <a href="logout.php">Logout</a>
+        </div>
     </div>
 </body>
 </html>
