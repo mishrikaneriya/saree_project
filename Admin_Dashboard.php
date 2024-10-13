@@ -1,10 +1,13 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <?php include 'header.php';
+include 'config.php';
+
 session_start();
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['admin_logged_in'])) {
     header("Location: login.php");
     exit();
 }
+
 ?>
 
 <html lang="en">
@@ -20,6 +23,8 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 <div class="wrapper">
     <nav class="sidebar">
         <div class="sidebar-header">
+        <h1>Welcome, Admin <?php echo $_SESSION['admin_username']; ?>!</h1>
+        <p>This is the admin dashboard.</p>
             <h3>Admin Panel</h3>
         </div>
         <ul class="list-unstyled components">
@@ -75,5 +80,9 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     });
 });
 </script>
+<a href="logout.php">Logout</a>
 </body>
 </html>
+
+
+

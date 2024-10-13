@@ -1,6 +1,10 @@
 <?php
 include 'phpmailer.php';
 
+require 'send_email.php';
+$otp = rand(100000, 999999); // Example OTP generation
+sendMail($email, $otp);
+
 if (isset($_POST['email'])) {
     $to = $_POST['email'];
     $subject = 'Registration Successful';

@@ -48,7 +48,7 @@ $stmt = $conn->prepare("INSERT INTO tbl_user (email, password, otp, is_verified)
 
     $stmt->close(); // Close the statement
 }
-$conn->close(); // Close the database connection
+$con->close(); // Close the database connection
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +62,7 @@ $conn->close(); // Close the database connection
 <body>
     <div class="container">
         <h2>Signup</h2>
-        <form action="signup.php" method="POST">
+        <form action="user_dashboard.php" method="POST">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" name="email" required>
