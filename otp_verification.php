@@ -1,29 +1,26 @@
 <?php
-require 'config.php';
+include("config.php");
+session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+if (isset($_POST['verify_otp'])) {
+    $email = $_GET['email'];
     $otp = $_POST['otp'];
 
-    // Verify OTP
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? AND otp = ?");
-    $stmt->bind_param("si", $email, $otp);
+    $query = "SELECT * FROM `registered_users` WHERE `email`=? AND `verification_code`=?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("ss", $email, $otp);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        // Update user as verified
-        $stmt = $conn->prepare("UPDATE users SET is_verified = 1 WHERE email = ?");
+    if ($result->num_rows === 1) {
+        $update_query = "UPDATE `registered_users` SET `is_verified`=1 WHERE `email`=?";
+        $stmt = $con->prepare($update_query);
         $stmt->bind_param("s", $email);
         $stmt->execute();
-        echo "Your account has been verified. You can now <a href='login.php'>Login</a>.";
+
+        echo "<script>alert('OTP verified! You can now log in.'); window.location.href='index.php';</script>";
     } else {
-        echo "Invalid OTP.";
+        echo "<script>alert('Invalid OTP'); window.location.href='otp_verification.php?email=" . urlencode($email) . "';</script>";
     }
 }
 ?>
-<form method="post">
-    <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>">
-    <input type="text" name="otp" placeholder="Enter OTP">
-    <button type="submit">Verify</button>
-</form>
