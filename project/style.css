@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("./bg.jpeg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    transition: background 0.3s ease;
+}
+
+.glassmorphism {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+.glassmorphism-header, .glassmorphism-footer {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.nav-link {
+    font-size: 1rem;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #f0e68c;
+}
+
+.glassmorphism-footer {
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+footer h5 {
+    font-weight: bold;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    transition: text-decoration 0.3s ease;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
