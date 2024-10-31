@@ -1,0 +1,18 @@
+/* Custom styles */
+body {
+    font-family: 'Helvetica', sans-serif;
+  }
+  
+  h1, h2, h3 {
+    color: #E91E63;
+  }
+  
+  .btn-primary {
+    background-color: #E91E63;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #D81B60;
+  }
+  
