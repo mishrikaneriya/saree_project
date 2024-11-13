@@ -6,7 +6,7 @@ include 'config.php'; // Make sure this path is correct
 
 // Fetch product data from the database
 $query = "SELECT * FROM tbl_product"; // Adjust this based on your table structure
-$result = mysqli_query($conn, $query);
+// $result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
