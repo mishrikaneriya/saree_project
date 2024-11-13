@@ -1,11 +1,11 @@
 <?php
 // shop.php
 
-// Database connection
-include 'config.php'; // Make sure to configure this file with your database details
+// Include the database connection file
+include 'config.php'; // Make sure this path is correct
 
 // Fetch product data from the database
-$query = "SELECT * FROM products"; // Adjust this based on your table structure
+$query = "SELECT * FROM tbl_product"; // Adjust this based on your table structure
 $result = mysqli_query($conn, $query);
 ?>
 
