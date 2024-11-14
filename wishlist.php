@@ -22,6 +22,7 @@
         <li><a href="shop.php" class="hover:text-pink-600">Shop</a></li>
         <li><a href="user_dashboard.php" class="hover:text-pink-600">Dashboard</a></li>
         <li><a href="wishlist.php" class="hover:text-pink-600">Wishlist</a></li>
+        <li><a href="orders.php" class="hover:text-pink-600">Orders</a></li>
         <li><a href="logout.php" class="hover:text-pink-600">Logout</a></li>
       </ul>
     </nav>

@@ -49,7 +49,7 @@
             <tbody>
               <?php
               // Fetch orders for the logged-in user
-              include 'db_connection.php';
+              include 'config.php';
               $user_id = $_SESSION['user_id'];
               $query = "SELECT * FROM orders WHERE user_id = $user_id ORDER BY order_date DESC";
               $result = mysqli_query($conn, $query);

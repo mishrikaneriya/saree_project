@@ -29,11 +29,18 @@
 <body class="bg-gray-100 text-gray-800">
 
   <!-- Dashboard Header -->
-  <header class="dashboard-header p-4 shadow-md">
-    <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-2xl font-bold">User Dashboard</h1>
-      <a href="logout.php" class="btn btn-light">Logout</a>
-    </div>
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto flex items-center justify-between p-4">
+      <a href="index.php" class="text-2xl font-bold text-pink-600">SareeStore</a>
+      <ul class="flex space-x-6 text-gray-700">
+        <li><a href="index.php" class="hover:text-pink-600">Home</a></li>
+        <li><a href="./shop.php" class="hover:text-pink-600">Shop</a></li>
+        <li><a href="user_dashboard.php" class="hover:text-pink-600">Dashboard</a></li>
+        <li><a href="wishlist.php" class="hover:text-pink-600">Wishlist</a></li>
+        <li><a href="orders.php" class="hover:text-pink-600">Orders</a></li>
+        <li><a href="logout.php" class="hover:text-pink-600">Logout</a></li>
+      </ul>
+    </nav>
   </header>
 
   <!-- Dashboard Content -->
@@ -43,9 +50,9 @@
       <!-- Account Overview -->
       <div class="bg-white rounded-lg shadow-md p-6">
         <h2 class="text-xl font-semibold mb-4">Account Overview</h2>
-        <p>Welcome back, [User's Name]</p>
-        <p class="mt-2">Email: [User's Email]</p>
-        <p class="mt-2">Phone: [User's Phone]</p>
+        <p>Welcome back, [bhargavtz]</p>
+        <p class="mt-2">Email: [bhargavtz@yandex.com]</p>
+        <p class="mt-2">Phone: [8141100131]</p>
         <a href="profile.php" class="text-pink-600 hover:underline mt-4 inline-block">Edit Profile</a>
       </div>
 
