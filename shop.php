@@ -59,8 +59,8 @@ if (!$result) {
                                 <h3 class="text-lg font-semibold">' . htmlspecialchars($name) . '</h3>
                                 <p class="text-gray-600 mb-4">₹' . number_format($price, 2) . '</p>
                                 <div class="flex justify-between items-center">
-                                    <a href="user/add_to_wishlist.php?id=' . $id . '" class="text-pink-600 hover:text-pink-700"><i class="bi bi-heart-fill"></i> Wishlist</a>
-                                    <a href="user/add_to_cart.php?id=' . $id . '" class="text-pink-600 hover:text-pink-700"><i class="bi bi-cart-fill"></i> Add to Cart</a>
+                                    <a href="add_to_wishlist.php?id=' . $id . '" class="text-pink-600 hover:text-pink-700"><i class="bi bi-heart-fill"></i> Wishlist</a>
+                                    <a href="add_to_cart.php?id=' . $id . '" class="text-pink-600 hover:text-pink-700"><i class="bi bi-cart-fill"></i> Add to Cart</a>
                                 </div>
                             </div>
                         </div>
