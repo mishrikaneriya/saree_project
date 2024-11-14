@@ -1,26 +1,34 @@
 <?php
 // Start the session
-// session_start();
+session_start();
 
 // Include the database connection
-// include('db_connection.php'); // Adjust the path to your actual database connection file
-include('./config.php'); // Include your config file (ensure the path is correct)
+include('config.php'); // Ensure this points to your actual database config file
 
-// Check if user is logged in
-// if (!isset($_SESSION['user_id'])) {
-//     header('Location: login.php'); // Redirect to login if not logged in
-//     exit();
-// }
+// Check if the user is logged in (i.e., user_id exists in session)
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to login page if not logged in
+    header('Location: index.php');
+    exit();
+}
 
 // Get user data from the database
-//$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id']; // The logged-in user’s ID is stored in session
 $query = $conn->prepare("SELECT * FROM tbl_users WHERE user_id = ?");
 $query->bind_param("i", $user_id);
 $query->execute();
 $result = $query->get_result();
+
+// Check if user data is returned
+if ($result->num_rows == 0) {
+    // Redirect to login page if no data is found for the user
+    header('Location: index.php');
+    exit();
+}
+
 $user = $result->fetch_assoc();
 
-// Check if form was submitted for updating profile
+// Handle the profile update form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
@@ -31,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Update user profile in the database
     $update_query = $conn->prepare("UPDATE tbl_users SET first_name = ?, last_name = ?, email = ?, phone = ?, address = ? WHERE user_id = ?");
     $update_query->bind_param("sssssi", $first_name, $last_name, $email, $phone, $address, $user_id);
+
     if ($update_query->execute()) {
         $message = "Profile updated successfully!";
     } else {

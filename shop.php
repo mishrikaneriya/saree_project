@@ -1,7 +1,10 @@
 <?php
 include 'config.php'; // Database connection
 
-$query = "SELECT * FROM tbl_product";
+// Check if there's a search query
+$search_query = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+
+$query = "SELECT * FROM tbl_product WHERE pname LIKE '%$search_query%' OR type LIKE '%$search_query%'";
 $result = mysqli_query($conn, $query);
 
 if (!$result) {
@@ -36,6 +39,19 @@ if (!$result) {
     </nav>
 </header>
 
+<!-- Search Box Section -->
+<section id="search" class="py-4 bg-white shadow-sm">
+    <div class="container mx-auto">
+        <form action="shop.php" method="GET" class="flex items-center justify-center space-x-4">
+            <input type="text" name="search" placeholder="Search products by name or type" value="<?php echo htmlspecialchars($search_query); ?>"
+                class="w-full sm:w-96 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700">
+                <i class="bi bi-search"></i> Search
+            </button>
+        </form>
+    </div>
+</section>
+
 <!-- Shop Section -->
 <section id="shop" class="py-20">
     <div class="container mx-auto">
@@ -48,6 +64,8 @@ if (!$result) {
                     $name = $product['pname'];
                     $price = $product['price'];
                     $description = $product['description'];
+                    $fabric = $product['fabric'];
+                    $color = $product['color'];
                     $image = $product['image_url'] ?? 'assets/images/default.jpg'; // Default image if URL is missing
 
                     echo '
@@ -58,6 +76,13 @@ if (!$result) {
                             <div class="p-4">
                                 <h3 class="text-lg font-semibold">' . htmlspecialchars($name) . '</h3>
                                 <p class="text-gray-600 mb-4">₹' . number_format($price, 2) . '</p>
+                                
+                                <!-- Display Description, Fabric, and Color -->
+                                <p class="text-sm text-gray-700 mb-2">Description: ' . htmlspecialchars($description) . '</p>
+                                <p class="text-sm text-gray-700 mb-2">Fabric: ' . htmlspecialchars($fabric) . '</p>
+                                <p class="text-sm text-gray-700 mb-4">Color: ' . htmlspecialchars($color) . '</p>
+                                
+                                <!-- Add to Cart and Wishlist buttons -->
                                 <div class="flex justify-between items-center">
                                     <a href="add_to_wishlist.php?id=' . $id . '" class="text-pink-600 hover:text-pink-700"><i class="bi bi-heart-fill"></i> Wishlist</a>
                                     <a href="add_to_cart.php?id=' . $id . '" class="text-pink-600 hover:text-pink-700"><i class="bi bi-cart-fill"></i> Add to Cart</a>

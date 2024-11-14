@@ -37,7 +37,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <?php
         // Fetch items from the wishlist table in the database
-        include 'db_connection.php';
+        include 'config.php';
         $user_id = $_SESSION['user_id'];
         $query = "SELECT * FROM wishlist WHERE user_id = $user_id";
         $result = mysqli_query($conn, $query);
