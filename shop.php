@@ -24,9 +24,11 @@ if (!$result) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-gray-800">
-
+<?php
+include 'header.php';
+?>
 <!-- Navigation Bar -->
-<header class="bg-white shadow-md sticky top-0 z-50">
+<!-- <header class="bg-white shadow-md sticky top-0 z-50">
     <nav class="container mx-auto flex items-center justify-between p-4">
         <a href="index.php" class="text-2xl font-bold text-pink-600">SareeStore</a>
         <ul class="flex space-x-6 text-gray-700">
@@ -37,7 +39,7 @@ if (!$result) {
             <li><a href="login.php" class="hover:text-pink-600">Login</a></li>
         </ul>
     </nav>
-</header>
+</header> -->
 
 <!-- Search Box Section -->
 <section id="search" class="py-4 bg-white shadow-sm">

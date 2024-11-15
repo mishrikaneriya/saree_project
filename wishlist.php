@@ -36,22 +36,33 @@
       <!-- Wishlist Items -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <?php
-        // Fetch items from the wishlist table in the database
+        session_start();
         include 'config.php';
+
+        // Ensure the user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            echo '<p class="text-center text-gray-700">Please <a href="login.php" class="text-pink-600">log in</a> to view your wishlist.</p>';
+            exit;
+        }
+
         $user_id = $_SESSION['user_id'];
-        $query = "SELECT * FROM wishlist WHERE user_id = $user_id";
+
+        // Fetch items from the wishlist table
+        $query = "SELECT * FROM tbl_wishlist WHERE user_id = $user_id";
         $result = mysqli_query($conn, $query);
 
-        if (mysqli_num_rows($result) > 0) {
+        if (!$result) {
+            echo '<p class="text-center text-red-600">Error fetching wishlist: ' . mysqli_error($conn) . '</p>';
+        } elseif (mysqli_num_rows($result) > 0) {
           while ($row = mysqli_fetch_assoc($result)) {
             echo '
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
-              <img src="assets/images/' . $row['image'] . '" alt="' . $row['product_name'] . '" class="w-full h-64 object-cover">
+              <img src="assets/images/' . htmlspecialchars($row['image']) . '" alt="' . htmlspecialchars($row['product_name']) . '" class="w-full h-64 object-cover">
               <div class="p-4">
-                <h3 class="text-lg font-semibold">' . $row['product_name'] . '</h3>
-                <p class="text-gray-600 mb-4">₹' . $row['price'] . '</p>
+                <h3 class="text-lg font-semibold">' . htmlspecialchars($row['product_name']) . '</h3>
+                <p class="text-gray-600 mb-4">₹' . htmlspecialchars($row['price']) . '</p>
                 <div class="flex justify-between items-center">
-                  <a href="remove_from_wishlist.php?item_id=' . $row['id'] . '" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">Remove</a>
+                  <a href="remove_from_wishlist.php?item_id=' . htmlspecialchars($row['id']) . '" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">Remove</a>
                   <a href="shop.php" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">Shop More</a>
                 </div>
               </div>
@@ -72,4 +83,6 @@
 
   <!-- JavaScript Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2" d
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2" defer></script>
+</body>
+</html>

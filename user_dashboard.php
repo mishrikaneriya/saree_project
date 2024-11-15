@@ -28,7 +28,10 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Dashboard Header -->
+<?php
+include 'header.php';
+?>
+  <!-- Dashboard Header
   <header class="bg-white shadow-md sticky top-0 z-50">
     <nav class="container mx-auto flex items-center justify-between p-4">
       <a href="index.php" class="text-2xl font-bold text-pink-600">SareeStore</a>
@@ -41,7 +44,7 @@
         <li><a href="logout.php" class="hover:text-pink-600">Logout</a></li>
       </ul>
     </nav>
-  </header>
+  </header> -->
   <div class="container mx-auto">
   <h2 class="text-3xl font-bold text-center mb-12">user Dashboard</h2>
   <!-- Dashboard Content -->

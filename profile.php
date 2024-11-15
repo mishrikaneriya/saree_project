@@ -1,16 +1,16 @@
 <?php
 // Start the session
-session_start();
+
 
 // Include the database connection
 include('config.php'); // Ensure this points to your actual database config file
 
 // Check if the user is logged in (i.e., user_id exists in session)
-if (!isset($_SESSION['user_id'])) {
-    // Redirect to login page if not logged in
-    header('Location: index.php');
-    exit();
-}
+// if (!isset($_SESSION['user_id'])) {
+//     // Redirect to login page if not logged in
+//     header('Location: index.php');
+//     exit();
+// }
 
 // Get user data from the database
 $user_id = $_SESSION['user_id']; // The logged-in user’s ID is stored in session

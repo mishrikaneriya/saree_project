@@ -1,3 +1,23 @@
+<?php
+// Start session and check for user_id
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+include 'config.php';
+
+// Sanitize user_id
+$user_id = intval($_SESSION['user_id']); // Convert to integer for safety
+
+$query = "SELECT * FROM tbl_orders WHERE user_id = $user_id ORDER BY order_date DESC";
+$result = mysqli_query($conn, $query);
+
+if (!$result) {
+    die("Query failed: " . mysqli_error($conn));
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +28,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
-
-  <!-- Navigation Bar -->
   <header class="bg-white shadow-md sticky top-0 z-50">
     <nav class="container mx-auto flex items-center justify-between p-4">
       <a href="index.php" class="text-2xl font-bold text-pink-600">SareeStore</a>
@@ -27,12 +44,9 @@
       </ul>
     </nav>
   </header>
-
-  <!-- Orders Section -->
   <section class="py-20">
     <div class="container mx-auto">
       <h2 class="text-3xl font-bold text-center mb-12">Your Orders</h2>
-
       <div class="bg-white rounded-lg shadow p-6">
         <div class="overflow-x-auto">
           <table class="table-auto w-full text-left whitespace-no-wrap">
@@ -48,29 +62,23 @@
             </thead>
             <tbody>
               <?php
-              // Fetch orders for the logged-in user
-              include 'config.php';
-              $user_id = $_SESSION['user_id'];
-              $query = "SELECT * FROM orders WHERE user_id = $user_id ORDER BY order_date DESC";
-              $result = mysqli_query($conn, $query);
-
               if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                  echo '
-                  <tr class="border-b border-gray-200 hover:bg-gray-100">
-                    <td class="px-4 py-2">' . $row['order_id'] . '</td>
-                    <td class="px-4 py-2">' . date("d M Y", strtotime($row['order_date'])) . '</td>
-                    <td class="px-4 py-2">' . $row['total_items'] . '</td>
-                    <td class="px-4 py-2">₹' . $row['total_price'] . '</td>
-                    <td class="px-4 py-2 text-' . ($row['status'] == 'Delivered' ? 'green' : 'orange') . '-600">' . $row['status'] . '</td>
-                    <td class="px-4 py-2">
-                      <a href="order_details.php?order_id=' . $row['order_id'] . '" class="text-blue-600 hover:underline">View Details</a>
-                      <a href="track_order.php?order_id=' . $row['order_id'] . '" class="ml-4 text-pink-600 hover:underline">Track</a>
-                    </td>
-                  </tr>';
-                }
+                  while ($row = mysqli_fetch_assoc($result)) {
+                      echo '
+                      <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="px-4 py-2">' . $row['order_id'] . '</td>
+                        <td class="px-4 py-2">' . date("d M Y", strtotime($row['order_date'])) . '</td>
+                        <td class="px-4 py-2">' . $row['total_items'] . '</td>
+                        <td class="px-4 py-2">₹' . $row['total_price'] . '</td>
+                        <td class="px-4 py-2 text-' . ($row['status'] == 'Delivered' ? 'green' : 'orange') . '-600">' . $row['status'] . '</td>
+                        <td class="px-4 py-2">
+                          <a href="order_details.php?order_id=' . $row['order_id'] . '" class="text-blue-600 hover:underline">View Details</a>
+                          <a href="track_order.php?order_id=' . $row['order_id'] . '" class="ml-4 text-pink-600 hover:underline">Track</a>
+                        </td>
+                      </tr>';
+                  }
               } else {
-                echo '<tr><td colspan="6" class="px-4 py-6 text-center text-gray-700">You have no orders yet.</td></tr>';
+                  echo '<tr><td colspan="6" class="px-4 py-6 text-center text-gray-700">You have no orders yet.</td></tr>';
               }
               ?>
             </tbody>
@@ -79,14 +87,8 @@
       </div>
     </div>
   </section>
-
-  <!-- Footer -->
   <footer class="bg-gray-900 text-white py-6 text-center">
     <p>&copy; 2024 SareeStore. All rights reserved.</p>
   </footer>
-
-  <!-- JavaScript Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2" defer></script>
 </body>
 </html>
