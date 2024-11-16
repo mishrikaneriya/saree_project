@@ -1,31 +1,43 @@
 <?php
-// Start session if not already started
-session_start();
 
-// Database connection
-include('config.php');
+include 'config.php'; // Include your database connection
 
-// Check if the user is logged in and if product_id is provided
-if (isset($_SESSION['user_id']) && isset($_POST['product_id'])) {
-    $user_id = $_SESSION['user_id'];
-    $product_id = $_POST['product_id'];
+// if (!isset($_SESSION['user_id'])) {
+//     // Redirect to login page if user is not logged in
+//     header('Location: login.php');
+//     exit();
+// }
 
-    // Check if the product already exists in the wishlist for this user
-    $query = $conn->prepare("SELECT * FROM tbl_wishlist WHERE user_id = ? AND product_id = ?");
-    $query->bind_param("ii", $user_id, $product_id);
-    $query->execute();
-    $result = $query->get_result();
+$user_id = intval($_SESSION['user_id']); // Safely retrieve user ID from session
+$product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-    if ($result->num_rows > 0) {
-        echo json_encode(['status' => 'info', 'message' => 'Product already in wishlist']);
+if ($product_id > 0) {
+    // Check if the product is already in the wishlist
+    $check_query = "SELECT * FROM tbl_wishlist WHERE user_id = ? AND product_id = ?";
+    $stmt = mysqli_prepare($conn, $check_query);
+    mysqli_stmt_bind_param($stmt, 'ii', $user_id, $product_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($result) > 0) {
+        
+        echo "<script>alert('This product is already in your wishlist.'); window.location.href='shop.php';</script>";
     } else {
-        // If product doesn't exist, insert new record
-        $insert = $conn->prepare("INSERT INTO tbl_wishlist (user_id, product_id) VALUES (?, ?)");
-        $insert->bind_param("ii", $user_id, $product_id);
-        $insert->execute();
-        echo json_encode(['status' => 'success', 'message' => 'Product added to wishlist']);
+        // Insert into wishlist table
+        $insert_query = "INSERT INTO tbl_wishlist (user_id, product_id) VALUES (?, ?)";
+        $stmt = mysqli_prepare($conn, $insert_query);
+        mysqli_stmt_bind_param($stmt, 'ii', $user_id, $product_id);
+
+        if (mysqli_stmt_execute($stmt)) {
+            echo "<script>alert('Product added to wishlist successfully!'); window.location.href='shop.php';</script>";
+        } else {
+            echo "<script>alert('Failed to add product to wishlist.'); window.location.href='shop.php';</script>";
+        }
     }
+    mysqli_stmt_close($stmt);
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'User not logged in or missing product information']);
+    echo "<script>alert('Invalid product ID.'); window.location.href='shop.php';</script>";
 }
+
+mysqli_close($conn); // Close the database connection
 ?>
