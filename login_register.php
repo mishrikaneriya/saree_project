@@ -27,7 +27,7 @@ function sendMail($email, $otp) {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port = 465;
 
-        $mail->setFrom('22bmmit171@gmail.com', 'mahek--');
+        $mail->setFrom('22bmmit171@gmail.com', 'mahek pagal');
         $mail->addAddress($email);
 
         $mail->isHTML(true);
@@ -71,7 +71,7 @@ if (isset($_POST['login'])) {
 if (isset($_POST['register'])) {
     $user_exist_query = "SELECT * FROM `registered_users` WHERE `username`=? OR `email`=?";
     $stmt = $con->prepare($user_exist_query);
-    $stmt->bind_param("ss", $_POST['username'], $_POST['email']);
+    $stmt->bind_param(types: "ss", $_POST['username'], $_POST['email']);
     $stmt->execute();
     $result = $stmt->get_result();
 
